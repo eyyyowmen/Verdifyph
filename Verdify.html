@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage with Authentication</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+            padding: 20px;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding-top: 10px;
+            min-height: 40px;
+            border-bottom: #bbb 1px solid;
+        }
+        header a {
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 14px;
+        }
+        header ul {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            overflow: hidden;
+        }
+        header li {
+            float: left;
+            display: inline;
+            padding: 0 20px 0 20px;
+        }
+        header #branding {
+            float: left;
+        }
+        header #branding h1 {
+            margin: 0;
+        }
+        header nav {
+            float: right;
+            margin-top: 10px;
+        }
+        .auth-form {
+            background: #fff;
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .auth-form h2 {
+            text-align: center;
+            color: #333;
+        }
+        .form-control {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background: #555;
+        }
+        #content {
+            margin-top: 20px;
+        }
+        .service {
+            background: #fff;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .service h3 {
+            color: #333;
+            margin-top: 0;
+        }
+        .contact-form {
+            background: #fff;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .contact-form h2 {
+            text-align: center;
+            color: #333;
+        }
+        textarea.form-control {
+            height: 150px;
+            resize: vertical;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div id="branding">
+                <h2 class="logo"><i class='bx bxl-firebase'></i>Verdify</h2>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" id="homeLink">Home</a></li>
+                    <li><a href="#" id="aboutLink">About</a></li>
+                    <li><a href="#" id="servicesLink">Services</a></li>
+                    <li><a href="#" id="contactLink">Contact</a></li>
+                    <li><a href="#" id="loginLink">Login</a></li>
+                    <li><a href="#" id="signupLink">Sign Up</a></li>
+                    <li><a href="#" id="userPageLink" style="display:none;">My Page</a></li>
+                    <li><a href="#" id="logoutLink" style="display:none;">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div id="loginForm" class="auth-form" style="display:none;">
+            <h2>Login</h2>
+            <form>
+                <input type="email" id="loginEmail" class="form-control" placeholder="Email" required>
+                <input type="password" id="loginPassword" class="form-control" placeholder="Password" required>
+                <button type="button" class="btn" onclick="login()">Login</button>
+            </form>
+        </div>
+
+        <div id="signupForm" class="auth-form" style="display:none;">
+            <h2>Sign Up</h2>
+            <form>
+                <input type="text" id="signupName" class="form-control" placeholder="Full Name" required>
+                <input type="email" id="signupEmail" class="form-control" placeholder="Email" required>
+                <input type="password" id="signupPassword" class="form-control" placeholder="Password" required>
+                <button type="button" class="btn" onclick="signup()">Sign Up</button>
+            </form>
+        </div>
+
+        <div id="content">
+            <h2>Welcome to My Website</h2>
+            <p>This is the homepage content. You can see this whether you're logged in or not.</p>
+        </div>
+
+        <div id="userContent" style="display:none;">
+            <h3>Welcome, <span id="userName"></span>!</h3>
+            <p>This is some content only visible to logged-in users.</p>
+        </div>
+
+        <div id="aboutContent" style="display:none;">
+            <h2>About Us</h2>
+            <p>Welcome to My Website! We are dedicated to providing high-quality content and services to our users.</p>
+            <p>Our mission is to create a user-friendly platform that offers valuable information and resources to our community.</p>
+            <p>Founded in 2023, we have been continuously working to improve and expand our offerings to meet the needs of our growing user base.</p>
+            <p>If you have any questions or feedback, please don't hesitate to contact us. We appreciate your support and look forward to serving you!</p>
+        </div>
+
+        <div id="servicesContent" style="display:none;">
+            <h2>Our Services</h2>
+            <div class="service">
+                <h3>Web Design</h3>
+                <p>We create beautiful, responsive websites tailored to your needs.</p>
+            </div>
+            <div class="service">
+                <h3>Digital Marketing</h3>
+                <p>Boost your online presence with our comprehensive digital marketing strategies.</p>
+            </div>
+            <div class="service">
+                <h3>Content Creation</h3>
+                <p>Engage your audience with high-quality, relevant content.</p>
+            </div>
+        </div>
+
+        <div id="contactContent" style="display:none;">
+            <div class="contact-form">
+                <h2>Contact Us</h2>
+                <form id="contactForm">
+                    <input type="text" id="contactName" class="form-control" placeholder="Your Name" required>
+                    <input type="email" id="contactEmail" class="form-control" placeholder="Your Email" required>
+                    <input type="text" id="contactSubject" class="form-control" placeholder="Subject" required>
+                    <textarea id="contactMessage" class="form-control" placeholder="Your Message" required></textarea>
+                    <button type="submit" class="btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="userPageContent" style="display:none;">
+            <h2>Welcome to Your Personal Page</h2>
+            <p>Hello, <span id="userPageName"></span>! This is your personal page that only you can see when logged in.</p>
+            <div id="userInfo">
+                <h3>Your Information:</h3>
+                <p>Name: <span id="userInfoName"></span></p>
+                <p>Email: <span id="userInfoEmail"></span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <script>
+        let currentUser = null;
+        const users = [];
+
+        function showLoginForm() {
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('signupForm').style.display = 'none';
+            document.getElementById('userContent').style.display = 'none';
+            document.getElementById('content').style.display = 'none';
+            document.getElementById('aboutContent').style.display = 'none';
+            document.getElementById('servicesContent').style.display = 'none';
+        }
+
+        function showSignupForm() {
+            document.getElementById('signupForm').style.display = 'block';
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('userContent').style.display = 'none';
+            document.getElementById('content').style.display = 'none';
+            document.getElementById('aboutContent').style.display = 'none';
+            document.getElementById('servicesContent').style.display = 'none';
+        }
+
+        function showHomepage() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('signupForm').style.display = 'none';
+            document.getElementById('aboutContent').style.display = 'none';
+            document.getElementById('servicesContent').style.display = 'none';
+            document.getElementById('content').style.display = 'block';
+            document.getElementById('userContent').style.display = currentUser ? 'block' : 'none';
+        }
+
+        function showAbout() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('signupForm').style.display = 'none';
+            document.getElementById('content').style.display = 'none';
+            document.getElementById('userContent').style.display = 'none';
+            document.getElementById('servicesContent').style.display = 'none';
+            document.getElementById('aboutContent').style.display = 'block';
+        }
+
+        function showServices() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('signupForm').style.display = 'none';
+            document.getElementById('content').style.display = 'none';
+            document.getElementById('userContent').style.display = 'none';
+            document.getElementById('aboutContent').style.display = 'none';
+            document.getElementById('servicesContent').style.display = 'block';
+        }
+
+        function showContact() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('signupForm').style.display = 'none';
+            document.getElementById('content').style.display = 'none';
+            document.getElementById('userContent').style.display = 'none';
+            document.getElementById('aboutContent').style.display = 'none';
+            document.getElementById('servicesContent').style.display = 'none';
+            document.getElementById('contactContent').style.display = 'block';
+        }
+
+        document.getElementById('contactLink').addEventListener('click', showContact);
+
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('contactName').value;
+            const email = document.getElementById('contactEmail').value;
+            const subject = document.getElementById('contactSubject').value;
+            const message = document.getElementById('contactMessage').value;
+            
+            console.log('Contact form submitted:', { name, email, subject, message });
+            alert('Thank you for your message. We will get back to you soon!');
+            
+            this.reset();
+        });
+
+        function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const user = users.find(u => u.email === email && u.password === password);
+            if (user) {
+                currentUser = user;
+                document.getElementById('userName').textContent = user.name;
+                document.getElementById('loginLink').style.display = 'none';
+                document.getElementById('signupLink').style.display = 'none';
+                document.getElementById('logoutLink').style.display = 'inline';
+                showHomepage();
+            } else {
+                alert('Invalid email or password');
+            }
+        }
+
+        function signup() {
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            if (users.some(u => u.email === email)) {
+                alert('Email already in use');
+            } else {
+                users.push({name, email, password});
+                alert('Sign up successful! Please log in.');
+                showLoginForm();
+            }
+        }
+
+        function showUserPage() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('signupForm').style.display = 'none';
+            document.getElementById('content').style.display = 'none';
+            document.getElementById('userContent').style.display = 'none';
+            document.getElementById('aboutContent').style.display = 'none';
+            document.getElementById('servicesContent').style.display = 'none';
+            document.getElementById('contactContent').style.display = 'none';
+            document.getElementById('userPageContent').style.display = 'block';
+
+            document.getElementById('userPageName').textContent = currentUser.name;
+            document.getElementById('userInfoName').textContent = currentUser.name;
+            document.getElementById('userInfoEmail').textContent = currentUser.email;
+        }
+
+        function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const user = users.find(u => u.email === email && u.password === password);
+            if (user) {
+                currentUser = user;
+                document.getElementById('userName').textContent = user.name;
+                document.getElementById('loginLink').style.display = 'none';
+                document.getElementById('signupLink').style.display = 'none';
+                document.getElementById('userPageLink').style.display = 'inline';
+                document.getElementById('logoutLink').style.display = 'inline';
+                showUserPage();
+            } else {
+                alert('Invalid email or password');
+            }
+        }
+
+        function logout() {
+            currentUser = null;
+            document.getElementById('loginLink').style.display = 'inline';
+            document.getElementById('signupLink').style.display = 'inline';
+            document.getElementById('userPageLink').style.display = 'none';
+            document.getElementById('logoutLink').style.display = 'none';
+            showHomepage();
+        }
+
+        document.getElementById('userPageLink').addEventListener('click', showUserPage);
+        document.getElementById('homeLink').addEventListener('click', showHomepage);
+        document.getElementById('aboutLink').addEventListener('click', showAbout);
+        document.getElementById('servicesLink').addEventListener('click', showServices);
+        document.getElementById('loginLink').addEventListener('click', showLoginForm);
+        document.getElementById('signupLink').addEventListener('click', showSignupForm);
+        document.getElementById('logoutLink').addEventListener('click', logout);
+
+        showHomepage();
+    </script>
+</body>
+</html>
